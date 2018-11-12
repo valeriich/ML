@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def norm_df(df):
     result = df.copy()
@@ -21,7 +22,7 @@ df['Age']
 df['Age'].isnull().values
 df1 = df[df['Age'].notnull()]
 print(norm_arr(df1['Age']))
-df1['Age'].iloc[0:3].replace(1000)
+df1['Age'].iloc[0:3] = 1000
 print(norm_arr(df1['Age']))
 df1.Age.quantile(0.025)
 df1.Age.quantile(0.975)
