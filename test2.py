@@ -45,5 +45,6 @@ df1 = df[df['Age'].notnull()]
 
 data =  pd.read_csv('weather.csv')
 print(data.columns)
-data1 = data.drop(['MONTH', 'DAY', 'TIME'], axis=1)
-print(norm_df(data1))
+print(data.shape)
+data1 = norm_df(data[['TEMP', 'PRESSURE']])
+print(data1)
