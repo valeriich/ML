@@ -1,7 +1,6 @@
 ### 12.11.2018 experiments
 
 import warnings
-
 warnings.simplefilter('ignore')
 import pandas as pd
 import numpy as np
