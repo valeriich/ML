@@ -1,6 +1,7 @@
 ### 12.11.2018 experiments
 
 import warnings
+
 warnings.simplefilter('ignore')
 import pandas as pd
 import numpy as np
@@ -21,12 +22,13 @@ df = pd.read_csv(url, names=names)
 # Age - Age (years) - Numeric
 # Outcome - Class variable (0 or 1) - Numeric
 
-#df.boxplot()
-#df.hist()
-#df.groupby('class').hist()
-#df.groupby('class').plas.hist(alpha=0.4)
+# df.boxplot()
+# df.hist()
+# df.groupby('class').hist()
+# df.groupby('class').plas.hist(alpha=0.4)
 df.groupby('class').age.hist(alpha=0.4)
 plt.show()
+
 
 # функция для разделения датасета на обучающую и тестовую выборки
 def stratified_split(y, proportion=0.8):
@@ -46,6 +48,7 @@ def stratified_split(y, proportion=0.8):
         test_inds[value_inds[n:]] = True
 
     return train_inds, test_inds
+
 
 # разделение датасета на обучающую и тестовую выборки
 train, test = stratified_split(df['class'])
@@ -67,11 +70,14 @@ logreg = LogisticRegression()
 logreg.fit(X_train, y_train)
 y_pred = logreg.predict(X_test)
 
+
 # функция расчета точности модели
 def accuracy(y_test, y_pred):
-    return 1 - sum(abs(y_test - y_pred)/len(y_test))
+    return 1 - sum(abs(y_test - y_pred) / len(y_test))
+
 
 print(accuracy(y_test, y_pred), ' RAW DATA')
+
 
 # нормализация данных (для сравнения результатов моделирования на основе исходных данных)
 def norm_arr(arr):
@@ -87,6 +93,7 @@ def norm_df(df):
         result[feature] = norm_arr(result[feature])
     return result
 
+
 X_train = norm_df(df.iloc[train, 0:8])
 X_test = norm_df(df.iloc[test, 0:8])
 logreg = LogisticRegression()
@@ -98,8 +105,10 @@ print(accuracy(y_test, y_pred), ' NORMALIZED DATA')
 # импорт инструмента RANDOMFOREST (деревья решений) для моделирования
 from sklearn.ensemble import RandomForestClassifier
 
+
 def mean(numbers):
     return float(sum(numbers)) / max(len(numbers), 1)
+
 
 # compare
 X_train = df.iloc[train, 0:8]
@@ -118,6 +127,7 @@ rf = RandomForestClassifier()
 rf.fit(X_train, y_train)
 y_pred = rf.predict(X_test)
 accuracy(y_test, y_pred)
+
 
 # Cross-validation функция
 def CV(df, classifier, nfold, norm=True):
@@ -149,19 +159,19 @@ logreg = LogisticRegression()
 rf = RandomForestClassifier()
 
 res = CV(df, rf, 10, norm=False)
-#res = np.array(res)
-#print(res)
-#print(res.mean())
+# res = np.array(res)
+# print(res)
+# print(res.mean())
 
 ##### HOMEWORK
-#####  расчет точности для 4-х вариантов прогоноза
+#####  расчет точности для 4-х вариантов прогноза
 
-N = 10 # number of calculations
-labels = ('logreg', 'rf', 'logreg norm', 'rf norm') # names for columns(used like pointers for models)
-myDict = {} # dictionary to make DataFrame later
+N = 10  # number of calculations
+labels = ('logreg', 'rf', 'logreg norm', 'rf norm')  # names for columns(used like pointers for models)
+myDict = {}  # dictionary to make DataFrame later
 
 # how we choose what way we go to calculate an accuracy for each model:
-for i in range (len(labels)):
+for i in range(len(labels)):
     if 'logreg' in labels[i]:
         model = LogisticRegression()
     else:
@@ -176,6 +186,8 @@ for i in range (len(labels)):
 # results are placed in DataFrame for analysis
 xs1 = pd.DataFrame(myDict)
 print(xs1.describe())
+
+
 #  but selections for each calculation are randomized!
 
 #### what if we want to see results on the same selection to compare?
@@ -187,8 +199,8 @@ def myCV(df, label, nfold):
         train, test = stratified_split(y)
         X_train = df.iloc[train, 0:8]
         X_test = df.iloc[test, 0:8]
-# now selection is the same for each model
-        for j in range (len(label)):
+        # now selection is the same for each model
+        for j in range(len(label)):
             if 'logreg' in label[j]:
                 model = LogisticRegression()
             else:
@@ -211,5 +223,7 @@ def myCV(df, label, nfold):
 
     return results
 
+
 xs2 = myCV(df, labels, N)
+print(xs2)
 print(xs2.describe())
