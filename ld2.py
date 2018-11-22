@@ -40,9 +40,9 @@ ax[1].scatter([theta0_true]*2,[theta1_true]*2,s=[50,10], color=['k','w'])
 # Take N steps with learning rate alpha down the steepest gradient,
 # starting at (theta0, theta1) = (0, 0).
 N = 5
-alpha = 0.7
+alpha = 1.35
 theta = [np.array((0,0))]
-J = [cost_func(*theta[0])[0]]
+J = [float(cost_func(*theta[0])[0])]
 for j in range(N-1):
     last_theta = theta[-1]
     this_theta = np.empty((2,))
@@ -51,8 +51,8 @@ for j in range(N-1):
     this_theta[1] = last_theta[1] - alpha / m * np.sum(
                                     (hypothesis(x, *last_theta) - y) * x)
     theta.append(this_theta)
-    J.append(cost_func(*this_theta))
-
+    J.append(float(cost_func(*this_theta)))
+print(J)
 
 # Annotate the cost function plot with coloured points indicating the
 # parameters chosen and red arrows indicating the steps down the gradient.

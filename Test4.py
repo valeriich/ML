@@ -1,6 +1,7 @@
 ### 19.11.2018 Decision trees
 
 import pandas as pd
+import numpy as np
 import math
 
 df = pd.read_csv('Tennis.csv')
