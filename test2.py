@@ -43,7 +43,7 @@ df1 = df[df['Age'].notnull()]
 #print(norm_arr(selected['Age']))
 #print(select_df(df1, 'Age'))
 
-data =  pd.read_csv('weather.csv')
+data = pd.read_csv('weather.csv')
 print(data.columns)
 print(data.shape)
 data1 = norm_df(data[['TEMP', 'PRESSURE']])
